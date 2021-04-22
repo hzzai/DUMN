@@ -119,4 +119,4 @@ def get_all_samples():
 get_all_samples()
 cut_time = get_cut_time(percent=0.85)
 split_test_by_time(cut_time)
-split_test_by_item_users()
+# split_test_by_item_users()
