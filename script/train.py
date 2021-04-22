@@ -218,7 +218,7 @@ def train(
         sess.run(tf.global_variables_initializer())
         sess.run(tf.local_variables_initializer())
         sys.stdout.flush()
-        print('                                                                                      test_auc: %.4f ---- test_loss: %.4f ---- test_accuracy: %.4f ---- test_aux_loss: %.4f' % eval(sess, test_data, model, best_model_path,maxlen,user_maxlen))
+        print('                                                                                   test_auc: %.4f ---- test_loss: %.4f ---- test_accuracy: %.4f ---- Logloss: %.4f' % eval(sess, test_data, model, best_model_path,maxlen,user_maxlen))
         sys.stdout.flush()
 
         start_time = time.time()
@@ -227,20 +227,20 @@ def train(
         for itr in range(3):
             loss_sum = 0.0
             accuracy_sum = 0.
-            aux_loss_sum = 0.
+            log_loss_sum = 0.
             for src, tgt in train_data:
                 uids, mids, cats, mid_his, cat_his, mid_mask, item_user_his, item_user_his_mask, item_user_his_mid, item_user_his_cat, item_user_his_mid_mask, target, sl = prepare_data(src, tgt, maxlen,user_maxlen)
-                loss, acc, aux_loss = model.train(sess, [uids, mids, cats, mid_his, cat_his, mid_mask, item_user_his, item_user_his_mask,
+                loss, acc, log_loss = model.train(sess, [uids, mids, cats, mid_his, cat_his, mid_mask, item_user_his, item_user_his_mask,
                                                          item_user_his_mid, item_user_his_cat, item_user_his_mid_mask, target, sl, lr])
                 loss_sum += loss
                 accuracy_sum += acc
-                aux_loss_sum += aux_loss
+                log_loss_sum += log_loss
                 iter += 1
                 sys.stdout.flush()
                 if (iter % test_iter) == 0:
-                    print('iter: %d ----> train_loss: %.4f ---- train_accuracy: %.4f ---- tran_aux_loss: %.4f' % \
-                                          (iter, loss_sum / test_iter, accuracy_sum / test_iter, aux_loss_sum / test_iter))
-                    print('                                                                                          test_auc: %.4f ----test_loss: %.4f ---- test_accuracy: %.4f ---- test_aux_loss: %.4f' % eval(sess, test_data, model, best_model_path, maxlen,user_maxlen))
+                    print('iter: %d ----> train_loss: %.4f ---- train_accuracy: %.4f ---- Logloss: %.4f' % \
+                                          (iter, loss_sum / test_iter, accuracy_sum / test_iter, log_loss_sum / test_iter))
+                    print('                                                                                   test_auc: %.4f ---- test_loss: %.4f ---- test_accuracy: %.4f ---- Logloss: %.4f' % eval(sess, test_data, model, best_model_path, maxlen,user_maxlen))
                     loss_sum = 0.0
                     accuracy_sum = 0.0
                     aux_loss_sum = 0.0
