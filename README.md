@@ -1,7 +1,7 @@
 # Deep User Match Network for Click-Through Rate Prediction
 Our code is implemented based on DIEN (https://github.com/mouna99/dien).
 
-##Running
+## Running
 We use Python 2.7 and Tensorflow 1.4.
 
 ## Prepare Data
@@ -15,5 +15,5 @@ We use Python 2.7 and Tensorflow 1.4.
     python ./script/generate_voc.py 
   
 
-##Train Model
+## Train Model
     python ./script/train.py train DUMN
